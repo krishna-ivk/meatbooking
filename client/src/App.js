@@ -6,6 +6,7 @@ import AuthForm from './AuthForm';
 import OrderForm from './OrderForm';
 import OrderSummary from './OrderSummary';
 import AdminDashboard from './AdminDashboard';
+import Analytics from './Analytics';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -91,6 +92,7 @@ function AppContent({ toast, showToast }) {
           <OrderForm onOrder={handleOrder} />
           <hr />
           <OrderSummary token={token} />
+          <Analytics token={token} />
           {user.isAdmin && <AdminDashboard token={token} />}
         </div>
       )}
