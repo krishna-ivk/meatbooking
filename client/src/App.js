@@ -5,6 +5,8 @@ import OrderForm from './OrderForm';
 import OrderSummary from './OrderSummary';
 import AdminDashboard from './AdminDashboard';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+
 function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState('');
@@ -17,7 +19,7 @@ function App() {
 
   const handleOrder = async (order) => {
     try {
-      const res = await fetch('http://localhost:5000/api/orders', {
+      const res = await fetch(`${API_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,6 +33,13 @@ function App() {
     } catch (err) {
       alert('Error: ' + err.message);
     }
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    setToken('');
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
   return (
@@ -47,7 +56,7 @@ function App() {
           <h2>Welcome, {user.name}!</h2>
           <p>Email: {user.email}</p>
           {user.isAdmin && <p style={{ color: 'green' }}>👑 Admin User</p>}
-          <button onClick={() => setUser(null)}>Logout</button>
+          <button onClick={handleLogout}>Logout</button>
           <hr />
           <h3>Book an Order</h3>
           <OrderForm onOrder={handleOrder} />
